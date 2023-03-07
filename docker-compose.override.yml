@@ -1,0 +1,14 @@
+---
+# For local use
+version: "3.7"
+
+services:
+  drupal:
+    image: ${COMPOSE_PROJECT_NAME?err}_drupal
+    build:
+      context: .
+    volumes:
+      - ./web:/var/www/web
+      - ./docker/drupal/settings.overrides.php:/var/www/web/sites/default/settings.overrides.php
+    ports:
+      - "${DRUPAL_HOST_PORT:-80}:80"
