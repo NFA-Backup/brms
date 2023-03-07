@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#TODO Test required ENV vars
+
 if [ "${DEPLOY}" = "1" ]; then
   su www-data --shell /bin/sh --command "${DEPLOY_CMD}"
 fi

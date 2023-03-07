@@ -49,6 +49,7 @@ $settings['file_public_path'] = "sites/default/files";
 $settings['file_private_path'] = $docroot_base . '/private';
 $settings['file_temp_path'] = $docroot_base . '/tmp';
 
+//TODO DISCUSS
 /**
  * Mapbox access token.
  */
