@@ -10,6 +10,10 @@
       const urls = drupalSettings.geolayer_map[instance.target].urls;
       let isSingleLayer;
       let source;
+      if (urls.length == 1) {
+        isSingleLayer = true;
+      }
+      console.log(isSingleLayer)
       for (let i = 0; i < urls.length; i++) {
         var url = new URL(urls[i], window.location.origin + drupalSettings.path.baseUrl)
         await fetch(url, {
@@ -19,9 +23,6 @@
           },
         }).then(function (response) {
           response.json().then(function (data) {
-            if (data.features.length == 1) {
-              isSingleLayer = true;
-            }
             data.features.forEach(function (feature) {
               const layer = instance.addLayer('geojson', {
                 title: feature.properties.name,
@@ -31,15 +32,14 @@
               });
               if (isSingleLayer) {
                 source = layer.getSource();
+                instance.map.getView().fit(source.getExtent(), instance.map.getSize());
               }
             });
+            if (!isSingleLayer) {
+              instance.zoomToVectors();
+            }
           })
         });
-      }
-      if (isSingleLayer && source) {
-        instance.map.getView().fit(source.getExtent(), instance.map.getSize());
-      } else {
-        instance.zoomToVectors();
       }
     },
     weight: 100,
